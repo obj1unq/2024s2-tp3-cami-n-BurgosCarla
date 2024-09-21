@@ -51,11 +51,28 @@ object camion {
 	method noEstaExcedidoDePeso() {
 		return not self.excedidoDePeso()
 	}
-	method noSuperaNivelDePeligrosidad(nivelMaximoPeligrosidad){ //Mal, nivel peligrosidad no es parte de camion
+	method noSuperaNivelDePeligrosidad(nivelMaximoPeligrosidad){ 
 		return not self.superaNivelPeligrosidad(nivelMaximoPeligrosidad)
 	}
 	method superaNivelPeligrosidad(nivel) {
-		return self.cosas.nivelPeligrosidad() > nivel
+		return cosas.any({cosas => cosas.nivelPeligrosidad() > nivel})
+		
 	}
-	
+	method tieneAlgoQuePesaEntre(min,max){
+		return cosas.any({cosas => cosas.pesoMaxMinEntre(min,max)})
+	}
+	method pesoMaxMinEntre(min,max){
+		return cosas.any({cosas => cosas.peso() > min})
+		and cosas.any({cosas => cosas.peso() < max})
+	}
+	method cosaMasPesada(){
+		return cosas.max({cosas => cosas.peso()})
+	}
+	method pesos(){
+		return cosas.filter {cosas => cosas.peso()}
+	}
+	method totalBultos(){
+		return cosas.size()
+	}
+
 }
